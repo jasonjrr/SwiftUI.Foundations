@@ -1,0 +1,66 @@
+"countdown.timer.view.ready" = "Ready";
+
+"date.text.field.placeholder.year.yyyy" = "YYYY";
+"date.text.field.placeholder.month.mm" = "MM";
+"date.text.field.placeholder.day.dd" = "DD";
+"date.text.field.placeholder.year" = "Year";
+"date.text.field.placeholder.month" = "Month";
+"date.text.field.placeholder.day" = "Day";
+"date.text.field.separator" = "/";
+"date.text.field.no.date.available" = "None";
+"date.text.field.keyboard.done" = "Done";
+
+"six.digit.code.keyboard.done.button.text" = "Done";
+
+"text.validation.view.model.criteria.equals.%d" = "Exactly %d characters";
+"text.validation.view.model.criteria.less.than.%d" = "Less than %d characters";
+"text.validation.view.model.criteria.less.than.or.equals.%d" = "%d of fewer characters";
+"text.validation.view.model.criteria.greater.than.%d" = "Less than %d characters";
+"text.validation.view.model.criteria.greater.than.or.equals.%d" = "Less than %d characters";
+"text.validation.view.model.criteria.contains.special.character" = "1 Special character";
+"text.validation.view.model.criteria.contains.numeric.character" = "1 Number";
+"text.validation.view.model.criteria.contains.lowercase.character" = "1 Lowercase letter";
+"text.validation.view.model.criteria.contains.uppercase.character" = "1 Uppercase letter";
+
+"tip.picker.view.curreny.symbol" = "$";
+"tip.picker.view.other" = "Other";
+
+"accessibility.button.group" = "Button Group";
+"accessibility.button.radio.button.group" = "Radio Button Group";
+
+"accessibility.checklist.view.label" = "Checklist";
+
+"accessibility.list.item.title.prefix" = "Title:";
+"accessibility.list.item.subtitle.prefix" = "Subtitle:";
+
+"accessibility.stepper.view.element.name" = "Steps";
+"accessibility.stepper.view.complete" = "Complete";
+"accessibility.stepper.view.incomplete" = "Incomplete";
+
+"accessibility.username.and.password.view.password.value.not.read" = "Password not read aloud";
+"accessibility.username.and.password.view.next.enter.password.%@" = "Next, enter %@";
+"accessibility.username.and.password.view.next.enter.password.hint.%@" = "Sets focus to %@";
+"accessibility.username.and.password.view.password.text.visible" = "Password text visible";
+"accessibility.username.and.password.view.password.text.hidden" = "Password text hidden";
+"accessibility.username.and.password.view.show.password.text.toggle.hint" = "Toggles visibilty on password text";
+"accessibility.username.and.password.view.submit" = "Submit";
+
+"accessibility.text.validation.view.valid" = "Valid";
+"accessibility.text.validation.view.invalid" = "Invalid";
+
+"accessibility.info.alert.view.success" = "Success";
+"accessibility.info.alert.view.info" = "Info";
+"accessibility.info.alert.view.warning" = "Warning";
+"accessibility.info.alert.view.error" = "Error";
+
+"accessibility.multiselect.view.selected" = "Selected";
+"accessibility.multiselect.view.unselected" = "Unselected";
+
+"accessibility.rating.view.label" = "Rating";
+"accessibility.rating.view.value.%@" = "%@ stars";
+
+"accessibility.sign.in.with.pin.view.code.label" = "Code";
+"accessibility.sign.in.with.pin.view.code.label" = "Code redacted";
+"accessibility.sign.in.with.pin.view.button.number.%@" = "%@ button";
+"accessibility.sign.in.with.pin.view.button.delete.last.number" = "Delete last number";
+
