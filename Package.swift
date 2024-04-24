@@ -25,6 +25,9 @@ let package = Package(
             name: "SUIFNetworking",
             targets: ["SUIFNetworking"]),
         .library(
+            name: "SUIFServerDrivenUI",
+            targets: ["SUIFServerDrivenUI"]),
+        .library(
             name: "SUIFTelemetry",
             targets: ["SUIFTelemetry"]),
     ],
@@ -57,6 +60,13 @@ let package = Package(
         ),
         .target(
             name: "SUIFNetworking",
+            dependencies: [
+                .target(name: "SwiftUIFoundation"),
+                .product(name: "CombineExt", package: "CombineExt"),
+            ]
+        ),
+        .target(
+            name: "SUIFServerDrivenUI",
             dependencies: [
                 .target(name: "SwiftUIFoundation"),
                 .product(name: "CombineExt", package: "CombineExt"),
