@@ -1,5 +1,5 @@
 //
-//  EventCoordinator.swift
+//  EventManager.swift
 //
 //
 //  Created by Jason Lew-Rapai on 4/22/24.
@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 extension SDUI {
-    public class EventCoordinator: ObservableObject {
+    public class EventManager: ObservableObject {
         private let eventBus: PassthroughSubject<Event, Never> = PassthroughSubject()
         public var events: AnyPublisher<Event, Never> {
             self.eventBus.eraseToAnyPublisher()
@@ -59,33 +59,33 @@ extension SDUI {
 }
 
 extension SDUI {
-    /// `EnvironmentKey` used to store the `EventCoordinator` in the SwiftUI environment.
-    public struct EventCoordinatorEnvironmentKey: EnvironmentKey {
-        public static var defaultValue: SDUI.EventCoordinator = SDUI.EventCoordinator()
+    /// `EnvironmentKey` used to store the `EventManager` in the SwiftUI environment.
+    public struct EventManagerEnvironmentKey: EnvironmentKey {
+        public static var defaultValue: SDUI.EventManager = SDUI.EventManager()
     }
 }
 
 extension EnvironmentValues {
-    public var eventCoordinator: SDUI.EventCoordinator {
-        get { self[SDUI.EventCoordinatorEnvironmentKey.self] }
-        set { self[SDUI.EventCoordinatorEnvironmentKey.self] = newValue }
+    public var eventManager: SDUI.EventManager {
+        get { self[SDUI.EventManagerEnvironmentKey.self] }
+        set { self[SDUI.EventManagerEnvironmentKey.self] = newValue }
     }
 }
 
 extension View {
-    /// Sets the environment value `EventCoordinator` to the given value.
+    /// Sets the environment value `EventManager` to the given value.
     ///
-    /// Use this modifier to set the ``EnvironmentValues/eventCoordinator`` 
+    /// Use this modifier to set the ``EnvironmentValues/eventManager``
     /// key in the ``EnvironmentValues`` structure.
     ///
     ///     MyView()
-    ///         .eventCoordinator(coordinator)
+    ///         .eventManager(manager)
     ///
     /// You then read the value inside `MyView` or one of its descendants
     /// using the ``Environment`` property wrapper:
     ///
     ///     struct MyView: View {
-    ///         @Environment(\.eventCoordinator) var eventCoordinator: SDUI.EventCoordinator
+    ///         @Environment(\.eventManager) var eventManager: SDUI.EventManager
     ///
     ///         var body: some View { ... }
     ///     }
@@ -95,11 +95,11 @@ extension View {
     /// outside the view hierarchy on which you call it.
     ///
     /// - Parameters:
-    ///   - coordinator: The `SDUI.EventCoordinator` to be
+    ///   - manager: The `SDUI.EventManager` to be
     ///     stored in the``EnvironmentValues`` structure.
     ///
     /// - Returns: A view that has the given value set in its environment.
-    public func eventCoordinator(_ coordinator: SDUI.EventCoordinator) -> some View {
-        environment(\.eventCoordinator, coordinator)
+    public func eventManager(_ manager: SDUI.EventManager) -> some View {
+        environment(\.eventManager, manager)
     }
 }

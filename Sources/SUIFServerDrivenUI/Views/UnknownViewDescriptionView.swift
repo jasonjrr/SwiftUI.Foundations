@@ -9,7 +9,7 @@ import SwiftUI
 
 extension SDUI {
     public struct UnknownViewDescriptionView: View {
-        @Environment(\.eventCoordinator) var eventCoordinator: SDUI.EventCoordinator
+        @Environment(\.eventManager) var eventManager: SDUI.EventManager
         
         public let viewDescription: SDUI.ViewDescription
         
@@ -20,7 +20,7 @@ extension SDUI {
         public var body: some View {
             Color.clear.onAppear {
                 print("!!! Unknown view description: \(self.viewDescription.identifier); props: \(self.viewDescription.properties); children: \(self.viewDescription.children)")
-                self.eventCoordinator.publishEvent(
+                self.eventManager.publishEvent(
                     withIdentifier: "sdui.unknown.view.description",
                     value: .error(SDUI.Errors.unknownViewDescription(self.viewDescription)))
             }

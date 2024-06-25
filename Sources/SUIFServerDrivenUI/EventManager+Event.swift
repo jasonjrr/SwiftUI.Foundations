@@ -1,5 +1,5 @@
 //
-//  EventCoordinator+Event.swift
+//  EventManager+Event.swift
 //
 //
 //  Created by Jason Lew-Rapai on 4/23/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SDUI.EventCoordinator {
+extension SDUI.EventManager {
     public struct Event {
         public let identifier: String
         public let value: EventValue?

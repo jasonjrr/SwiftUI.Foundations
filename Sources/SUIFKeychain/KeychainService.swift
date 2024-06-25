@@ -47,7 +47,7 @@ extension Keychain {
         public func save(tokenString: String, identifier: String, service: String) throws {
             try save(
                 data: Data(tokenString.utf8),
-                identifier: identifier, 
+                identifier: identifier,
                 service: service,
                 securityClass: .genericPassword)
         }

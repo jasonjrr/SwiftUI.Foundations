@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// Internal ``ViewModifier`` to support `.font(forSytle:)`
+/// Internal ``ViewModifier`` to support `.font(forStyle:)`
 struct ThemeFontStyleModifier: ViewModifier {
     @EnvironmentObject var theme: Theme
     let style: Theme.Fonts.Style
@@ -18,7 +18,7 @@ struct ThemeFontStyleModifier: ViewModifier {
     /// Initializes a new ``ThemeFontStyleModifier``
     ///
     /// - Parameters:
-    ///   - style: The symantically named style of the font
+    ///   - style: The semantically named style of the font
     ///   - weight: The weight of the font. A `nil` weight is the same as `.regular`.
     ///   - isItalic: When `true` the font is in italics, if possible
     ///   - design: Only supported by the default system font unless used in a custom ``FontNameConfiguration``
@@ -38,10 +38,10 @@ struct ThemeFontStyleModifier: ViewModifier {
 extension View {
     /// Sets the default font for text in this view based on the ``Theme``.
     ///
-    /// Use `font(forStyle:)` to apply a symantically styled font to all of the text in a view.
+    /// Use `font(forStyle:)` to apply a semantically styled font to all of the text in a view.
     ///
     /// - Parameters:
-    ///   - style: The symantically named style of the font
+    ///   - style: The semantically named style of the font
     ///   - weight: The ``Font.Weight`` of the font
     ///   - isItalic: When `true` the font is in italics, if possible
     ///   - design: Only supported by the default system font unless used in a custom ``FontNameConfiguration``

@@ -5,7 +5,7 @@
 //  Created by Jason Lew-Rapai on 4/11/24.
 //
 
-import UIKit
+import SwiftUI
 
 public enum HapticFeedbackStyle {
     public enum ImpactStyle: CaseIterable {

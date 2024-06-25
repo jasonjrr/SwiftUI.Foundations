@@ -39,7 +39,7 @@ extension SDUI {
 
 extension SDUI.LayoutFactoryView {
     internal struct BodyView<BodyContent: View>: View {
-        @Environment(\.eventCoordinator) private var eventCoordinator
+        @Environment(\.eventManager) private var eventManager
         
         let viewDescription: SDUI.ViewDescription
         @ViewBuilder

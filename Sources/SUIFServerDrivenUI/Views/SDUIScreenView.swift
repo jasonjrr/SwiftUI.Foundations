@@ -9,7 +9,7 @@ import SwiftUI
 
 extension SDUI {
     public struct ScreenView<Content: View>: View {
-        @Environment(\.eventCoordinator) var eventCoordinator: SDUI.EventCoordinator
+        @Environment(\.eventManager) var eventManager: SDUI.EventManager
 
         private let screenViewDescription: SDUI.ScreenViewDescription
         private let accentColor: Color?
@@ -61,7 +61,7 @@ extension SDUI {
         @ViewBuilder
         private func makeButton(action: SDUI.ScreenViewDescription.NavigationBarAction) -> some View {
             Button {
-                self.eventCoordinator.publishEvent(SDUI.EventCoordinator.Event(identifier: action.eventIdentifier))
+                self.eventManager.publishEvent(SDUI.EventManager.Event(identifier: action.eventIdentifier))
             } label: {
                 if let text = action.text {
                     if (action.imageURL ?? action.imageName ?? action.imageSystemName) == nil {
