@@ -31,7 +31,7 @@ extension Theme {
 extension Theme.Fonts {
     private static let systemFontName: String = "SF Pro"
  
-    /// Symantically named font styles matching Apple's predefined styles
+    /// Semantically named font styles matching Apple's predefined styles
     public enum Style: String, CaseIterable {
         /// A font with the large title text style.
         case largeTitle = "large-title"
@@ -57,12 +57,12 @@ extension Theme.Fonts {
         case caption2 = "caption2"
     }
     
-    /// Create a font based on a symantic ``Theme.Fonts.Style`` which scaled with the user's accessability settings
+    /// Create a font based on a semantic ``Theme.Fonts.Style`` which scaled with the user's accessibility settings
     ///
     /// - Parameters:
-    ///   - style: The symantically named font style matching Apple's predefined styles
+    ///   - style: The semantically named font style matching Apple's predefined styles
     ///   - weight: The weight or thickness of characters in the font
-    ///   - isItalic: When `true`, creates an italisized font when possible
+    ///   - isItalic: When `true`, creates an italicized font when possible
     ///   - design: Only supported by the default system font unless used in a custom ``FontNameConfiguration``
     public func font(forStyle style: Style, weight: Font.Weight? = nil, isItalic: Bool = false, design: Font.Design = .default) -> Font {
         if self.fontName == Self.systemFontName {
@@ -114,10 +114,10 @@ extension Theme.Fonts {
     /// - Parameters:
     ///   - size: The point size of the font
     ///   - weight: The weight or thickness of characters in the font
-    ///   - isItalic: When `true`, creates an italisized font when possible
-    ///   - design: Only supported by the default sytem font or when used within a custon font name formatter set in the ``FontNameConfiguration``
+    ///   - isItalic: When `true`, creates an italicized font when possible
+    ///   - design: Only supported by the default system font or when used within a custom font name formatter set in the ``FontNameConfiguration``
     ///
-    /// - Returns: A ``Font`` based on the imput parameters that **does not** scale with the user's accessibiliy settings
+    /// - Returns: A ``Font`` based on the input parameters that **does not** scale with the user's accessibility settings
     public func font(ofSize size: CGFloat, weight: Font.Weight? = nil, isItalic: Bool = false, design: Font.Design = .default) -> Font {
         if self.fontName == Self.systemFontName {
             return isItalic

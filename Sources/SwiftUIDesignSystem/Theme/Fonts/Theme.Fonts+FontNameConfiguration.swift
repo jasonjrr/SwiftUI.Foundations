@@ -30,7 +30,7 @@ extension Theme.Fonts {
         ///   - bold: Font name for a "bold" weight font
         ///   - semibold: Font name for a "semibold", or sometimes "demi bold", weight font
         ///   - medium: Font name for a "medium" weight font
-        ///   - regular: Font name for a "regualr" weight font. This is the `default` font weight.
+        ///   - regular: Font name for a "regular" weight font. This is the `default` font weight.
         ///   - light: Font name for a "light" weight font
         ///   - thin: Font name for a "thin" weight font
         ///   - ultraLight: Font name for an "ultra light" weight font
