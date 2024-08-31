@@ -15,6 +15,7 @@ import SwiftUI
 /// - **Accessibility**:
 ///   - Accessibility label for this button is the specified `label` string
 ///   - Accessibility value for this button is the URL string
+@available(*, deprecated, renamed: "Link", message: "Deprecated, use Link instead")
 public struct URLButton: View {
     @EnvironmentObject var theme: Theme
     
@@ -27,7 +28,7 @@ public struct URLButton: View {
     ///
     /// - Parameters:
     ///   - label: Text for the button
-    ///   - multilineTextAlighnment: Sets the alignment of multiline text in this view
+    ///   - multilineTextAlignment: Sets the alignment of multiline text in this view
     ///   - url: The URL destination for the button
     public init(label: String, multilineTextAlignment: TextAlignment = .center, url: URL?) {
         self.label = label
@@ -43,8 +44,8 @@ public struct URLButton: View {
     ///
     /// - Parameters:
     ///   - label: Text for the button
-    ///   - multilineTextAlighnment: Sets the alignment of multiline text in this view
-    ///   - action: Closure executed whe the button is tapped
+    ///   - multilineTextAlignment: Sets the alignment of multiline text in this view
+    ///   - action: Closure executed when the button is tapped
     public init(label: String, multilineTextAlignment: TextAlignment = .center, action: @escaping () -> Void) {
         self.label = label
         self.url = nil
@@ -70,7 +71,7 @@ public struct URLButton: View {
                 .font(forStyle: .body, weight: .medium)
                 .multilineTextAlignment(self.multilineTextAlignment)
         }
-        .accentColor(self.theme.colors.accentColor.color)
+        .accentColor(self.theme.colors.accent.color)
         .accessibilityLabel(self.label)
     }
 }
@@ -81,9 +82,12 @@ struct URLButton_Previews: PreviewProvider {
     static let theme: Theme = Theme()
     static var previews: some View {
         Group {
-            URLButton(
-                label: "Apple",
-                url: URL(string: "https://www.apple.com"))
+            VStack {
+//                URLButton(
+//                    label: "Apple",
+//                    url: URL(string: "https://www.apple.com"))
+                Link("Apple", destination: URL(string: "https://www.apple.com")!)
+            }
         }
         .environmentObject(self.theme)
     }

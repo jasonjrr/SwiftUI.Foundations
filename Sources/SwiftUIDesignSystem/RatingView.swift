@@ -50,7 +50,7 @@ public struct RatingView: View, HapticFeedbackProvidable {
                 starButton(ratingValue: value)
             }
         }
-        .accentColor(self.overrideAccentColor ?? self.theme.colors.accentColor.color)
+        .accentColor(self.overrideAccentColor ?? self.theme.colors.accent.color)
         .accessibilityLabel(L10n.Accessibility.RatingView.label)
         .accessibilityValue(L10n.Accessibility.RatingView.rating(value: self.rating))
     }

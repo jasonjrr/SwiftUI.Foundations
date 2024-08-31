@@ -24,20 +24,10 @@ public struct CheckboxButton: View, HapticFeedbackProvidable {
     @Binding private var isChecked: Bool
     private let labelText: String?
     
-    private var checkmarkColor: Color { self.theme.colors.buttonForegroundColor.color }
-    private var checkedBorderColor: Color {
-        self.isEnabled
-        ? self.theme.colors.accentColor.color
-        : self.theme.colors.disabledBackgroundColor.color
-    }
-    private var uncheckedBorderColor: Color {
-        self.isEnabled
-        ? self.theme.colors.textFieldBorderColor.color
-        : self.theme.colors.disabledBackgroundColor.color
-    }
+    private var checkmarkColor: Color { self.theme.colors.buttonForeground.color }
+    private var checkedBorderColor: Color { self.theme.colors.accent.color }
+    private var uncheckedBorderColor: Color { self.theme.colors.textFieldBorder.color }
     private var labelTextColor: Color { self.theme.colors.label.color }
-    
-    private var disabledBorderColor: Color { self.theme.colors.disabledForegroundColor.color }
     
     /// Initializes a new `CheckboxButton`
     ///
@@ -82,15 +72,17 @@ public struct CheckboxButton: View, HapticFeedbackProvidable {
                                 .animation(.easeInOut(duration: 0.18), value: self.isChecked)
                         }
                     }
+                    .compositingGroup()
                 
                 if let labelText, !labelText.isEmpty {
                     Text(labelText)
                         .font(forStyle: .headline)
-                        .foregroundColor(self.isEnabled ? self.labelTextColor : self.disabledBorderColor)
+                        .foregroundColor(self.labelTextColor)
                         .accessibilityLabel(labelText)
                 }
             }
         }
+        .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(
             self.isChecked

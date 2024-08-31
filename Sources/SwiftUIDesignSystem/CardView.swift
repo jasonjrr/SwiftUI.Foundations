@@ -62,7 +62,7 @@ public struct CardView<Content>: View where Content: View {
                     makeBackground()
                     if self.borderWidth > 0.0 {
                         RoundedRectangle(cornerRadius: self.cornerRadius)
-                            .stroke(self.theme.colors.separatorColor.color, lineWidth: self.borderWidth)
+                            .stroke(self.theme.colors.separator.color, lineWidth: self.borderWidth)
                             .padding(self.borderWidth / 2.0)
                     }
                 }
@@ -73,15 +73,15 @@ public struct CardView<Content>: View where Content: View {
     private func makeBackground() -> some View {
         if let shadow {
             RoundedRectangle(cornerRadius: self.cornerRadius)
-                .fill(self.theme.colors.cardBackgroundColor.color)
+                .fill(self.theme.colors.cardBackground.color)
                 .shadow(
-                    color: shadow.color ?? self.theme.colors.cardShadowColor.color,
+                    color: shadow.color ?? self.theme.colors.cardShadow.color,
                     radius: shadow.radius,
                     x: shadow.xOffset,
                     y: shadow.yOffset)
         } else {
             RoundedRectangle(cornerRadius: self.cornerRadius)
-                .fill(self.theme.colors.cardBackgroundColor.color)
+                .fill(self.theme.colors.cardBackground.color)
         }
     }
 }

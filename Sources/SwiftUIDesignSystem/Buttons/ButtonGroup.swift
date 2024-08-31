@@ -23,7 +23,7 @@ public struct ButtonGroup<Item, ItemContent>: View where Item: Identifiable, Ite
     @Binding var selectedItem: Item?
     private let itemContent: (Item) -> ItemContent
     
-    private var selectedForegroundColor: Color { self.theme.colors.buttonForegroundColor.color }
+    private var selectedForegroundColor: Color { self.theme.colors.buttonForeground.color }
     
     /// Initializes a new `ButtonGroup`
     ///
@@ -78,7 +78,7 @@ public struct ButtonGroup<Item, ItemContent>: View where Item: Identifiable, Ite
                 .stroke(Color.accentColor, lineWidth: self.borderWidth)
                 .padding(self.borderWidth / 2.0)
         )
-        .accentColor(self.theme.colors.accentColor.color)
+        .accentColor(self.theme.colors.accent.color)
         .accessibilityLabel(L10n.Accessibility.Buttons.buttonGroup)
         .accessibilityElement(children: .combine)
     }

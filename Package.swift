@@ -19,6 +19,9 @@ let package = Package(
             name: "SwiftUIDesignSystem",
             targets: ["SwiftUIDesignSystem"]),
         .library(
+            name: "SUIFBluetoothConnectivity",
+            targets: ["SUIFBluetoothConnectivity"]),
+        .library(
             name: "SUIFKeychain",
             targets: ["SUIFKeychain"]),
         .library(
@@ -48,6 +51,14 @@ let package = Package(
             dependencies: [
                 .target(name: "SwiftUIFoundation"),
                 .target(name: "SUIFNetworking"),
+                .target(name: "SUIFTelemetry"),
+                .product(name: "CombineExt", package: "CombineExt"),
+            ]
+        ),
+        .target(
+            name: "SUIFBluetoothConnectivity",
+            dependencies: [
+                .target(name: "SwiftUIFoundation"),
                 .product(name: "CombineExt", package: "CombineExt"),
             ]
         ),

@@ -21,7 +21,7 @@ public struct ListDisclosureLabelStyle: LabelStyle {
             Spacer()
             configuration.icon
                 .font(.subheadline)
-                .foregroundColor(self.disclosureColor ?? self.theme.colors.separatorColor.color)
+                .foregroundColor(self.disclosureColor ?? self.theme.colors.separator.color)
         }
         .font(forStyle: .body)
     }

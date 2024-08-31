@@ -61,8 +61,8 @@ public struct BorderedPillButtonStyle: ButtonStyle {
     private let foregroundColor: UIColor?
     private let backgroundColor: UIColor?
     
-    private var errorColor: Color { self.theme.colors.errorColor.color }
-    private var successColor: Color { self.theme.colors.successColor.color }
+    private var errorColor: Color { self.theme.colors.error.color }
+    private var successColor: Color { self.theme.colors.success.color }
     
     /// Initializes a new `BorderedPillButtonStyle`
     ///
@@ -115,7 +115,7 @@ public struct BorderedPillButtonStyle: ButtonStyle {
             }
             .opacity(self.isPressed ? 0.5 : 1.0)
             .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
-            .accentColor(self.foregroundColor?.color ?? self.theme.colors.accentColor.color)
+            .accentColor(self.foregroundColor?.color ?? self.theme.colors.accent.color)
             .onChange(of: configuration.isPressed) { isPressed in
                 withAnimation(.easeInOut(duration: 0.065)) {
                     self.isPressed = isPressed
@@ -126,7 +126,7 @@ public struct BorderedPillButtonStyle: ButtonStyle {
     private func getForegroundColor() -> Color {
         switch self.errorState {
         case .none:
-            return self.foregroundColor?.color ?? self.theme.colors.accentColor.color
+            return self.foregroundColor?.color ?? self.theme.colors.accent.color
         case .error:
             return self.errorColor
         case .success:

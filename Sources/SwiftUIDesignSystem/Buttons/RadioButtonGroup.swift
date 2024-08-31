@@ -25,7 +25,6 @@ public struct RadioButtonGroup<Item, ItemContent>: View where Item: Identifiable
     @Binding var selectedItem: Item?
     @ViewBuilder private let itemContent: (Item) -> ItemContent
     
-    private var disabledColor: Color { self.theme.colors.disabledBackgroundColor.color }
     private var titleTextColor: Color { self.theme.colors.secondaryLabel.color }
     private var textColor: Color { self.theme.colors.label.color }
     
@@ -33,7 +32,7 @@ public struct RadioButtonGroup<Item, ItemContent>: View where Item: Identifiable
     ///
     /// - Parameters:
     ///   - title: Optional title for the group
-    ///   - items: Generic arract of type `Item` that represent the individual radio buttons in the group
+    ///   - items: Generic array of type `Item` that represent the individual radio buttons in the group
     ///   - selectedItem: `Binding` for the select `Item` from `items`
     ///   - itemContent: `ViewBuilder` that creates the view for each `Item` in the group
     public init(
@@ -54,6 +53,7 @@ public struct RadioButtonGroup<Item, ItemContent>: View where Item: Identifiable
                 Text(title)
                     .font(forStyle: .callout, weight: .medium)
                     .foregroundColor(self.titleTextColor)
+                    .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
             }
             ForEach(self.items) { item in
                 RadioButton(item: item, selectedItem: self.$selectedItem, alignment: .top) {
@@ -62,7 +62,6 @@ public struct RadioButtonGroup<Item, ItemContent>: View where Item: Identifiable
                 }
             }
         }
-        .foregroundColor(self.isEnabled ? self.textColor : self.disabledColor)
         .accessibilityLabel(L10n.Accessibility.Buttons.radioButtonGroup)
         .accessibilityElement(children: .combine)
     }

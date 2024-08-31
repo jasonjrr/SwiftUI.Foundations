@@ -16,26 +16,25 @@ extension Theme.Colors {
     
     public static var sampleLightAppearance: Theme.Colors {
         Theme.Colors(
-            accentColor: UIColor(hex: "#003C71")!,
-            secondaryColor: UIColor(hex: "#61B5FF")!,
+            accent: UIColor(hex: "#003C71")!,
+            secondary: UIColor(hex: "#61B5FF")!,
             background: .white,
             secondaryBackground: UIColor(hex: "#E0E0E0")!,
             label: UIColor(hex: "#505358")!,
             secondaryLabel: UIColor(hex: "#757575")!,
             tertiaryLabel: UIColor(hex: "#757575")!,
-            labelOnSecondaryColor: .white,
-            errorColor: .systemRed,
-            successColor: .systemGreen,
-            infoColor: .systemTeal,
-            warningColor: .systemOrange,
-            badgeColor: .systemRed,
-            buttonForegroundColor: .white,
-            textFieldBorderColor: UIColor(hex: "#E0E0E0")!,
-            cardBackgroundColor: .white,
-            cardShadowColor: .black.withAlphaComponent(0.15),
-            disabledBackgroundColor: UIColor(hex: "#003C71")!.withAlphaComponent(0.3),
-            disabledForegroundColor: .white,
-            separatorColor: UIColor(hex: "#E0E0E0")!)
+            labelOnSecondary: .white,
+            error: .systemRed,
+            success: .systemGreen,
+            info: .systemTeal,
+            warning: .systemOrange,
+            badge: .systemRed,
+            buttonForeground: .white,
+            textFieldBorder: UIColor(hex: "#E0E0E0")!,
+            cardBackground: .white,
+            cardShadow: .black.withAlphaComponent(0.15),
+            separator: UIColor(hex: "#E0E0E0")!
+        )
     }
 }
 

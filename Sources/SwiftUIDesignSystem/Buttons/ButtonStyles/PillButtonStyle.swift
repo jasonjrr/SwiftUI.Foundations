@@ -80,16 +80,16 @@ public struct PillButtonStyle: ButtonStyle {
         case .none:
             switch self.kind {
             case .primary:
-                uiColor = self.overrideBackgroundColor ?? self.theme.colors.accentColor
+                uiColor = self.overrideBackgroundColor ?? self.theme.colors.accent
             case .secondary:
-                uiColor = self.overrideBackgroundColor ?? self.theme.colors.secondaryColor
+                uiColor = self.overrideBackgroundColor ?? self.theme.colors.secondary
             case .tertiary:
                 uiColor = self.overrideBackgroundColor ?? .clear
             }
         case .error:
-            uiColor = self.theme.colors.errorColor
+            uiColor = self.theme.colors.error
         case .success:
-            uiColor = self.theme.colors.successColor
+            uiColor = self.theme.colors.success
         }
         return uiColor.color
     }
@@ -98,9 +98,9 @@ public struct PillButtonStyle: ButtonStyle {
         let uiColor: UIColor
         switch self.kind {
         case .primary, .secondary:
-            uiColor = self.overrideForegroundColor ?? self.theme.colors.buttonForegroundColor
+            uiColor = self.overrideForegroundColor ?? self.theme.colors.buttonForeground
         case .tertiary:
-            uiColor = self.overrideForegroundColor ?? self.theme.colors.accentColor
+            uiColor = self.overrideForegroundColor ?? self.theme.colors.accent
         }
         return uiColor.color
     }
@@ -151,6 +151,7 @@ public struct PillButtonStyle: ButtonStyle {
             .background {
                 Capsule(style: .circular).fill(self.fillColor)
             }
+            .compositingGroup()
             .opacity(self.isPressed ? 0.5 : 1.0)
             .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
             .onChange(of: configuration.isPressed) { isPressed in

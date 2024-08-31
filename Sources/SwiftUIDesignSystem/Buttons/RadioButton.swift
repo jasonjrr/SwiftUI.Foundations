@@ -62,9 +62,8 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
     @ScaledMetric private var radioInnerCircleSize: CGFloat = 8.0
     @ScaledMetric private var radioTopPadding: CGFloat = 1.0
     
-    private var selectedColor: Color { self.theme.colors.accentColor.color }
+    private var selectedColor: Color { self.theme.colors.accent.color }
     private var unselectedColor: Color { self.theme.colors.secondaryLabel.color }
-    private var disabledColor: Color { self.theme.colors.disabledBackgroundColor.color }
     
     private let item: Item
     @Binding private var selectedItem: Item?
@@ -116,6 +115,7 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
                 makeBody()
             }
         }
+        .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(
             self.isSelected
@@ -148,7 +148,7 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
                 .frame(width: self.radioOuterCircleSize, height: self.radioOuterCircleSize)
             if self.isSelected {
                 Circle()
-                    .fill(self.isEnabled ? self.selectedColor : self.disabledColor)
+                    .fill(self.selectedColor)
                     .frame(width: self.radioInnerCircleSize, height: self.radioInnerCircleSize)
                     .transition(.scale)
                     .animation(.easeOut, value: self.isSelected)
@@ -159,13 +159,9 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
     }
     
     private func getRadioColor() -> Color {
-        if self.isEnabled {
-            return self.isSelected
-            ? self.selectedColor
-            : self.unselectedColor
-        } else {
-            return self.disabledColor
-        }
+        return self.isSelected
+        ? self.selectedColor
+        : self.unselectedColor
     }
 }
 

@@ -9,8 +9,8 @@ import SwiftUI
 
 extension Theme {
     public struct Colors {
-        public let accentColor: UIColor
-        public let secondaryColor: UIColor
+        public let accent: UIColor
+        public let secondary: UIColor
         
         public let background: UIColor
         public let secondaryBackground: UIColor
@@ -18,49 +18,44 @@ extension Theme {
         public let label: UIColor
         public let secondaryLabel: UIColor
         public let tertiaryLabel: UIColor
-        public let labelOnSecondaryColor: UIColor
+        public let labelOnSecondary: UIColor
         
-        public let errorColor: UIColor
-        public let successColor: UIColor
-        public let infoColor: UIColor
-        public let warningColor: UIColor
+        public let error: UIColor
+        public let success: UIColor
+        public let info: UIColor
+        public let warning: UIColor
         
-        public let badgeColor: UIColor
-        public let buttonForegroundColor: UIColor
-        public let textFieldBorderColor: UIColor
+        public let badge: UIColor
+        public let buttonForeground: UIColor
+        public let textFieldBorder: UIColor
         
-        public let cardBackgroundColor: UIColor
-        public let cardShadowColor: UIColor
+        public let cardBackground: UIColor
+        public let cardShadow: UIColor
         
-        public let disabledBackgroundColor: UIColor
-        public let disabledForegroundColor: UIColor
-        
-        public let separatorColor: UIColor
+        public let separator: UIColor
         
         public init(
-            accentColor: UIColor = .systemBlue,
-            secondaryColor: UIColor = .systemPurple,
+            accent: UIColor = .systemBlue,
+            secondary: UIColor = .systemPurple,
             background: UIColor = .systemBackground,
             secondaryBackground: UIColor = .secondarySystemBackground,
             label: UIColor = .label,
             secondaryLabel: UIColor = .secondaryLabel,
             tertiaryLabel: UIColor = .tertiaryLabel,
-            labelOnSecondaryColor: UIColor = .white,
-            errorColor: UIColor = .systemRed,
-            successColor: UIColor = .systemGreen,
-            infoColor: UIColor = .systemTeal,
-            warningColor: UIColor = .systemOrange,
-            badgeColor: UIColor = .systemRed,
-            buttonForegroundColor: UIColor = .white,
-            textFieldBorderColor: UIColor = .opaqueSeparator,
-            cardBackgroundColor: UIColor = .systemBackground,
-            cardShadowColor: UIColor = .black.withAlphaComponent(0.15),
-            disabledBackgroundColor: UIColor = .black.withAlphaComponent(0.275),
-            disabledForegroundColor: UIColor = .black.withAlphaComponent(0.5),
-            separatorColor: UIColor = .separator
+            labelOnSecondary: UIColor = .white,
+            error: UIColor = .systemRed,
+            success: UIColor = .systemGreen,
+            info: UIColor = .systemTeal,
+            warning: UIColor = .systemOrange,
+            badge: UIColor = .systemRed,
+            buttonForeground: UIColor = .white,
+            textFieldBorder: UIColor = .opaqueSeparator,
+            cardBackground: UIColor = .systemBackground,
+            cardShadow: UIColor = .black.withAlphaComponent(0.15),
+            separator: UIColor = .separator
         ) {
-            self.accentColor = accentColor
-            self.secondaryColor = secondaryColor
+            self.accent = accent
+            self.secondary = secondary
             
             self.background = background
             self.secondaryBackground = secondaryBackground
@@ -68,30 +63,27 @@ extension Theme {
             self.label = label
             self.secondaryLabel = secondaryLabel
             self.tertiaryLabel = tertiaryLabel
-            self.labelOnSecondaryColor = labelOnSecondaryColor
+            self.labelOnSecondary = labelOnSecondary
             
-            self.errorColor = errorColor
-            self.successColor = successColor
-            self.infoColor = infoColor
-            self.warningColor = warningColor
+            self.error = error
+            self.success = success
+            self.info = info
+            self.warning = warning
             
-            self.badgeColor = badgeColor
-            self.buttonForegroundColor = buttonForegroundColor
-            self.textFieldBorderColor = textFieldBorderColor
+            self.badge = badge
+            self.buttonForeground = buttonForeground
+            self.textFieldBorder = textFieldBorder
             
-            self.cardBackgroundColor = cardBackgroundColor
-            self.cardShadowColor = cardShadowColor
+            self.cardBackground = cardBackground
+            self.cardShadow = cardShadow
             
-            self.disabledBackgroundColor = disabledBackgroundColor
-            self.disabledForegroundColor = disabledForegroundColor
-            
-            self.separatorColor = separatorColor
+            self.separator = separator
         }
         
         public func allColors() -> [UIColor] {
             [
-                self.accentColor,
-                self.secondaryColor,
+                self.accent,
+                self.secondary,
                 
                 self.background,
                 self.secondaryBackground,
@@ -99,24 +91,21 @@ extension Theme {
                 self.label,
                 self.secondaryLabel,
                 self.tertiaryLabel,
-                self.labelOnSecondaryColor,
+                self.labelOnSecondary,
                 
-                self.errorColor,
-                self.successColor,
-                self.infoColor,
-                self.warningColor,
+                self.error,
+                self.success,
+                self.info,
+                self.warning,
                 
-                self.badgeColor,
-                self.buttonForegroundColor,
-                self.textFieldBorderColor,
+                self.badge,
+                self.buttonForeground,
+                self.textFieldBorder,
                 
-                self.cardBackgroundColor,
-                self.cardShadowColor,
+                self.cardBackground,
+                self.cardShadow,
                 
-                self.disabledBackgroundColor,
-                self.disabledForegroundColor,
-                
-                self.separatorColor,
+                self.separator,
             ]
         }
     }

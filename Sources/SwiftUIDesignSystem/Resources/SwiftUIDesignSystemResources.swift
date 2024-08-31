@@ -19,7 +19,7 @@ final class SwiftUIDesignSystemResources {
             Bundle(for: SwiftUIDesignSystemResources.self).resourceURL,
         ]
 
-        let bundlePath = "SFDesignSystem_SFDesignSystem.bundle"
+        let bundlePath = "SwiftUI.Foundations_SwiftUIDesignSystem.bundle"
 
         for candidate in candidates {
             let resourceURL: URL?
