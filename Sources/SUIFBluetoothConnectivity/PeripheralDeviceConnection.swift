@@ -8,6 +8,7 @@
 import Foundation
 import CoreBluetooth
 import Combine
+import SwiftUIFoundation
 
 extension Bluetooth {
     ///
@@ -50,7 +51,7 @@ extension Bluetooth {
         /// - Returns: A publisher that emits the result of service discovery.
         ///
         @discardableResult
-        public func discoverService(
+        public func discoverServices(
             _ serviceUUIDs: [CBUUID]? = nil
         ) -> AnyPublisher<Result<[CBService], any Error>?, Never> {
             self.device.peripheral.discoverServices(serviceUUIDs)
@@ -84,7 +85,7 @@ extension Bluetooth {
         public func observeCharacteristic(
             _ characteristic: CBCharacteristic
         ) -> AnyPublisher<Result<Data?, any Error>, Never> {
-            Just(())
+            Just()
                 .receive(on: self.dispatchQueue)
                 .withLatestFrom(self._valueSubjectsByCharacteristicUUID)
                 .flatMapLatest { [weak self] valueSubjectsByCharacteristicUUID in
@@ -110,19 +111,30 @@ extension Bluetooth {
         /// - Returns: A publisher that emits the result of the characteristic's value change.
         ///
         @discardableResult
-        public func writeToCharacteristic(
-            _ data: Data,
-            for characteristic: CBCharacteristic
-        ) -> AnyPublisher<Result<Data?, any Error>, Never> {
-            Just(())
+        public func write(data: Data, to characteristic: CBCharacteristic) -> AnyPublisher<Result<Data?, any Error>, Never> {
+            self.device.peripheral.writeValue(data, for: characteristic, type: .withResponse)
+            return observeCharacteristic(characteristic)
+        }
+        
+        ///
+        /// Writes data to a characteristic without response.
+        ///
+        /// NOTE: This does not mean the device will not send a response through
+        /// `peripheral(_ peripheral:, didUpdateValueFor characteristic:, error:)`
+        /// Bluetooth is a wild world and the device will do what it wants.
+        ///
+        /// - Parameter data: The data to write.
+        /// - Parameter characteristic: The characteristic to write to.
+        ///
+        public func write(dataWithoutResponse data: Data, to characteristic: CBCharacteristic) {
+            Just()
                 .receive(on: self.dispatchQueue)
                 .withLatestFrom(self.canSendWriteWithoutResponse.filter { $0 })
                 .sink(receiveValue: { [weak self] _ in
                     self?.canSendWriteWithoutResponse.send(false)
-                    self?.device.peripheral.writeValue(data, for: characteristic, type: .withResponse)
+                    self?.device.peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
                 })
                 .store(in: &self.cancellables)
-            return observeCharacteristic(characteristic)
         }
         
         ///

@@ -1,5 +1,5 @@
 //
-//  PeripheralScanOption.swift
+//  ScanOption.swift
 //
 //
 //  Created by Jason Lew-Rapai on 8/29/24.

@@ -11,15 +11,15 @@ extension Bluetooth {
     public struct PeripheralDeviceConnectionRequest: Identifiable, Equatable {
         public enum State: Equatable {
             case connecting
-            case connected
+            case connected(Bluetooth.PeripheralDeviceConnection)
             case error(any Error)
             
             public static func == (lhs: PeripheralDeviceConnectionRequest.State, rhs: PeripheralDeviceConnectionRequest.State) -> Bool {
                 switch (lhs, rhs) {
                 case (.connecting, .connecting):
                     return true
-                case (.connected, .connected):
-                    return true
+                case (.connected(let lhsConnection), .connected(let rhsConnection)):
+                    return lhsConnection == rhsConnection
                 case (.error, .error):
                     return true
                 default:

@@ -1,5 +1,5 @@
 //
-//  TelemetryEvent.swift
+//  Telemetry.Event.swift
 //
 //
 //  Created by Jason Lew-Rapai on 4/12/24.

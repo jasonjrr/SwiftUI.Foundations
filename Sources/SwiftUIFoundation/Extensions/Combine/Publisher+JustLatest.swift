@@ -19,4 +19,3 @@ extension Publisher {
             .withLatestFrom(self)
     }
 }
-

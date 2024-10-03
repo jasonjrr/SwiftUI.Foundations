@@ -24,7 +24,7 @@ public struct BorderedPillButtonStyle: ButtonStyle {
         }
     }
     public enum Size: String, Identifiable {
-        /// This is smaller than the recomended tap area for a button
+        /// This is smaller than the recommended tap area for a button
         case xsmall
         /// The smallest recommended tap area for a button
         case small

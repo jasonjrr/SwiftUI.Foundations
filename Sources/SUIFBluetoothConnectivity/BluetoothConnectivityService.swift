@@ -63,7 +63,6 @@ extension Bluetooth {
         private var _discoveredDevices: CurrentValueSubject<[PeripheralDevice], Never>?
         
         private let _deviceConnectionRequests: CurrentValueSubject<[UUID: PeripheralDeviceConnectionRequest], Never> = CurrentValueSubject([:])
-        private let _deviceConnections: CurrentValueSubject<[UUID: PeripheralDeviceConnection], Never> = CurrentValueSubject([:])
         
         private let dispatchQueue: DispatchQueue
         private var cancellables: Set<AnyCancellable> = []
@@ -145,10 +144,17 @@ extension Bluetooth {
         }
         
         public func cancelConnectionRequest(_ request: PeripheralDeviceConnectionRequest) {
-            self.centralManager.cancelPeripheralConnection(request.device.peripheral)
+            Just(())
+                .receive(on: self.dispatchQueue)
+                .withLatestFrom(self._deviceConnectionRequests)
+                .sink(receiveValue: { [weak self, centralManager] requests in
+                    var requests = requests
+                    requests[request.device.id] = nil
+                    self?._deviceConnectionRequests.send(requests)
+                    centralManager?.cancelPeripheralConnection(request.device.peripheral)
+                })
+                .store(in: &self.cancellables)
         }
-        
-        
     }
 }
 
@@ -194,16 +200,16 @@ extension Bluetooth.BluetoothConnectivityService: CBCentralManagerDelegate {
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         Just(())
             .receive(on: self.dispatchQueue)
-            .withLatestFrom(self._deviceConnections, self._deviceConnectionRequests)
-            .sink(receiveValue: { connections, requests in
-                var connections = connections
+            .withLatestFrom(self._deviceConnectionRequests)
+            .sink(receiveValue: { [weak self] requests in
                 if var request = requests[peripheral.identifier] {
-                    request.state = .connected
-                    connections[peripheral.identifier] = Bluetooth.PeripheralDeviceConnection(device: request.device)
+                    var requests = requests
+                    request.state = .connected(Bluetooth.PeripheralDeviceConnection(device: request.device))
+                    requests[peripheral.identifier] = request
+                    self?._deviceConnectionRequests.send(requests)
                 } else {
                     // TODO: No request found!!!
                 }
-                self._deviceConnections.send(connections)
             })
             .store(in: &self.cancellables)
     }
@@ -211,8 +217,8 @@ extension Bluetooth.BluetoothConnectivityService: CBCentralManagerDelegate {
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
         Just(())
             .receive(on: self.dispatchQueue)
-            .withLatestFrom(self._deviceConnections, self._deviceConnectionRequests)
-            .sink(receiveValue: { [weak self] connections, requests in
+            .withLatestFrom(self._deviceConnectionRequests)
+            .sink(receiveValue: { [weak self] requests in
                 if let error {
                     var requests = requests
                     var request = requests[peripheral.identifier]
@@ -220,11 +226,8 @@ extension Bluetooth.BluetoothConnectivityService: CBCentralManagerDelegate {
                     requests[peripheral.identifier] = request
                     self?._deviceConnectionRequests.send(requests)
                 } else {
-                    var connections = connections
-                    connections[peripheral.identifier] = nil
                     var requests = requests
                     requests[peripheral.identifier] = nil
-                    self?._deviceConnections.send(connections)
                     self?._deviceConnectionRequests.send(requests)
                 }
             })
@@ -241,6 +244,27 @@ extension Bluetooth.BluetoothConnectivityService {
         static func == (lhs: ScanningPublisherPackage, rhs: ScanningPublisherPackage) -> Bool {
             lhs.services == rhs.services
             && lhs.options == rhs.options
+        }
+    }
+}
+
+extension CBManagerState: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .unknown:
+            return "unknown"
+        case .resetting:
+            return "resetting"
+        case .unsupported:
+            return "unsupported"
+        case .unauthorized:
+            return "unauthorized"
+        case .poweredOff:
+            return "poweredOff"
+        case .poweredOn:
+            return "poweredOn"
+        @unknown default:
+            return "unknown"
         }
     }
 }
