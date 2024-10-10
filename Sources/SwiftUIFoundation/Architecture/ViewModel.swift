@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias ViewModelDefinition = ObservableObject & Identifiable
+public typealias ViewModelDefinition = ObservableObject & Identifiable & Hashable
 
 /// Minimum definition of what is needed for a SwiftUI supported `ViewModel`.
 /// We use the `protocol` instead of the `typealias`, because it can be extended.
@@ -26,5 +26,24 @@ extension ViewModel {
                 action()
             }
         }
+    }
+    
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
+    ///
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: In your implementation of `hash(into:)`,
+    ///   don't call `finalize()` on the `hasher` instance provided,
+    ///   or replace it with a different instance.
+    ///   Doing so may become a compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+      hasher.combine(self.id)
     }
 }
