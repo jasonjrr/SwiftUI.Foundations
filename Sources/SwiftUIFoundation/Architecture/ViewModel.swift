@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias ViewModelDefinition = ObservableObject & Identifiable & Hashable
+public typealias ViewModelDefinition = ObservableObject & Equatable & Identifiable & Hashable
 
 /// Minimum definition of what is needed for a SwiftUI supported `ViewModel`.
 /// We use the `protocol` instead of the `typealias`, because it can be extended.
@@ -45,5 +45,17 @@ extension ViewModel {
     ///   of this instance.
     public func hash(into hasher: inout Hasher) {
       hasher.combine(self.id)
+    }
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+      lhs === rhs
     }
 }
