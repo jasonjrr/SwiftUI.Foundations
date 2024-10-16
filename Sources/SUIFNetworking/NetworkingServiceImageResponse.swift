@@ -24,4 +24,10 @@ public struct NetworkingServiceImageResponse {
     public let data: Data
     /// The original ``URLResponse`` object for reference
     public let response: URLResponse
+    
+    public init(image: UIImage, data: Data, response: URLResponse) {
+        self.image = image
+        self.data = data
+        self.response = response
+    }
 }

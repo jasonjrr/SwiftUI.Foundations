@@ -12,4 +12,9 @@ public struct NetworkingServiceResponse<Model> where Model: Codable {
     public let model: Model
     /// The original ``URLResponse`` object for reference
     public let response: URLResponse
+    
+    public init(model: Model, response: URLResponse) {
+        self.model = model
+        self.response = response
+    }
 }
