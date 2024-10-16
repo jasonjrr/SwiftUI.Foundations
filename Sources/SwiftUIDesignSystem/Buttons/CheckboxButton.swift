@@ -16,7 +16,7 @@ import SwiftUI
 ///   - Selection state is indicated through accessibility traits
 public struct CheckboxButton: View, HapticFeedbackProvidable {
     @Environment(\.isEnabled) var isEnabled
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     
     @ScaledMetric private var checkboxSize: CGFloat = 24.0
     @ScaledMetric private var checkmarkPadding: CGFloat = 4.0
@@ -115,7 +115,7 @@ struct CheckboxButton_Previews: PreviewProvider {
             .padding()
         }
         .previewDisplayName("Overview")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Disabled
         Group {
@@ -130,7 +130,7 @@ struct CheckboxButton_Previews: PreviewProvider {
             .disabled(true)
         }
         .previewDisplayName("Disabled")
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

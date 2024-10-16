@@ -15,7 +15,7 @@ import SwiftUI
 ///   - isItalic: When `true` the font is displayed in *italics* if possible
 ///   - design: Supported by system fonts only
 struct ThemeFontSizeModifier: ViewModifier {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     let size: CGFloat
     let weight: Font.Weight?
     let isItalic: Bool

@@ -55,7 +55,7 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
     }
     
     @Environment(\.isEnabled) var isEnabled
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     
     @ScaledMetric private var radioOuterCircleSize: CGFloat = 16.0
     @ScaledMetric private var radioOuterCircleStroke: CGFloat = 2.0
@@ -201,7 +201,7 @@ struct RadioButton_Previews: PreviewProvider {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
         }
-        .environmentObject(self.theme)
+        .environment(self.theme)
     }
 }
 #endif

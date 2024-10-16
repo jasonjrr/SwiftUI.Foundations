@@ -18,7 +18,7 @@ import SwiftUI
 ///   - Selection state for the `Item` is indicated through accessibility traits on the individual ``RadioButton``s
 public struct RadioButtonGroup<Item, ItemContent>: View where Item: Identifiable & Equatable, ItemContent: View {
     @Environment(\.isEnabled) var isEnabled
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     
     private let title: String?
     private let items: [Item]
@@ -96,7 +96,7 @@ struct RadioButtonGroup_Previews: PreviewProvider {
                     Text($0.text)
                 }
         }
-        .environmentObject(theme)
+        .environment(theme)
         
         Group {
             RadioButtonGroup(
@@ -112,7 +112,7 @@ struct RadioButtonGroup_Previews: PreviewProvider {
             .disabled(true)
         }
         .previewDisplayName("Disabled")
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

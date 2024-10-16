@@ -17,7 +17,7 @@ import SwiftUI
 ///   - Accessibility value for this button is the URL string
 @available(*, deprecated, renamed: "Link", message: "Deprecated, use Link instead")
 public struct URLButton: View {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     
     private let label: String
     private let url: URL?
@@ -89,7 +89,7 @@ struct URLButton_Previews: PreviewProvider {
                 Link("Apple", destination: URL(string: "https://www.apple.com")!)
             }
         }
-        .environmentObject(self.theme)
+        .environment(self.theme)
     }
 }
 #endif

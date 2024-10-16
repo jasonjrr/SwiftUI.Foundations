@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Internal ``ViewModifier`` to support `.font(forStyle:)`
 struct ThemeFontStyleModifier: ViewModifier {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     let style: Theme.Fonts.Style
     let weight: Font.Weight?
     let isItalic: Bool

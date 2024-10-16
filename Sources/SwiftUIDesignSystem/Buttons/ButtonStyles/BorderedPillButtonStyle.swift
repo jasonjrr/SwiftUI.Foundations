@@ -46,7 +46,7 @@ public struct BorderedPillButtonStyle: ButtonStyle {
     }
     
     @Environment(\.isEnabled) private var isEnabled: Bool
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     @ScaledMetric private var fontSize: CGFloat = 16.0
     @ScaledMetric private var minWidth: CGFloat = 44.0
     @ScaledMetric private var minHeight: CGFloat = 44.0
@@ -227,7 +227,7 @@ struct BorderedPillButtonStyle_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Size")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Disabled
         Group {
@@ -245,7 +245,7 @@ struct BorderedPillButtonStyle_Previews: PreviewProvider {
             .disabled(true)
         }
         .previewDisplayName("Disabled")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Success / Error
         Group {
@@ -282,7 +282,7 @@ struct BorderedPillButtonStyle_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Success/Error")
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

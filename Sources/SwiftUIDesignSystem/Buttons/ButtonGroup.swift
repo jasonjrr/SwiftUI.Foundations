@@ -16,7 +16,7 @@ import SwiftUI
 ///   - Accessibility labels for `ItemContent` aggregated to this view
 ///   - Selection state for each `Item` is indicated through accessibility traits
 public struct ButtonGroup<Item, ItemContent>: View where Item: Identifiable, ItemContent: View {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     @ScaledMetric private var borderWidth: CGFloat = 1.0
     
     private let items: [Item]
@@ -127,7 +127,7 @@ struct ButtonGroup_Previews: PreviewProvider {
                     }
             }
         }
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

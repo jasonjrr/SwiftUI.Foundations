@@ -12,7 +12,7 @@ import SwiftUI
 /// - **Requirements**:
 ///   - `Theme`: A `Theme` **must** be injected upstream as an `EnvironmentObject`.
 public struct RatingView: View, HapticFeedbackProvidable {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     @Binding public var rating: Int
     
     @ScaledMetric private var overrideStarIconHeight: CGFloat = 20.0
@@ -94,7 +94,7 @@ struct RatingView_Previews: PreviewProvider {
         Group {
             RatingView(rating: .constant(3))
         }
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

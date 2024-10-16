@@ -59,7 +59,7 @@ public struct PillButtonStyle: ButtonStyle {
     }
     
     @Environment(\.isEnabled) var isEnabled
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     @ScaledMetric private var fontSize: CGFloat = 16.0
     @ScaledMetric private var minWidth: CGFloat = 44.0
     @ScaledMetric private var minHeight: CGFloat = 44.0
@@ -258,7 +258,7 @@ struct PillButtonStyle_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Button Kinds")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Size
         Group {
@@ -291,7 +291,7 @@ struct PillButtonStyle_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Size")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Disabled
         Group {
@@ -320,7 +320,7 @@ struct PillButtonStyle_Previews: PreviewProvider {
             .disabled(true)
         }
         .previewDisplayName("Disabled")
-        .environmentObject(theme)
+        .environment(theme)
         
         // MARK: Success / Error
         Group {
@@ -356,7 +356,7 @@ struct PillButtonStyle_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Success/Error")
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

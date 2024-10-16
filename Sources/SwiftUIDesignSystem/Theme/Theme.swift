@@ -8,11 +8,13 @@
 import SwiftUI
 import Combine
 
-public class Theme: ObservableObject {
-    @Published public var colors: Theme.Colors
-    @Published public var fonts: Theme.Fonts
+@available(iOS 17.0, *)
+@Observable
+public class Theme {
+    public var colors: Theme.Colors
+    public var fonts: Theme.Fonts
     
-    @Published public var constants: Constants = Constants()
+    public var constants: Constants = Constants()
     public let timers: Timers = Timers()
     
     public init(
@@ -27,6 +29,7 @@ public class Theme: ObservableObject {
 }
 
 // MARK: Constants
+@available(iOS 17.0, *)
 extension Theme {
     public struct Constants {
         public let disabledOpacity: Double
@@ -54,6 +57,7 @@ extension Theme {
 }
 
 // MARK: Timers
+@available(iOS 17.0, *)
 extension Theme {
     public class Timers {
         public let timer1FPS: Publishers.Autoconnect<Timer.TimerPublisher> = Timer

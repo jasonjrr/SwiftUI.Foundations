@@ -32,7 +32,7 @@ public struct CardViewShadow {
 /// Creates a card around the `Content`
 public struct CardView<Content>: View where Content: View {
     @ScaledMetric private var defaultPadding: CGFloat = 16.0
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     private let cornerRadius: CGFloat
     private let borderWidth: CGFloat
     private let padding: EdgeInsets?
@@ -114,7 +114,7 @@ struct CardView_Previews: PreviewProvider {
             }
             .card()
         }
-        .environmentObject(theme)
+        .environment(theme)
     }
 }
 #endif

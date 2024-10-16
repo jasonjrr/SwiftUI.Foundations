@@ -7,7 +7,7 @@ let package = Package(
     name: "SwiftUI.Foundations",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v17),
         .macOS(.v13),
     ],
     products: [

@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct ListDisclosureLabelStyle: LabelStyle {
-    @EnvironmentObject var theme: Theme
+    @Environment(Theme.self) var theme: Theme
     public var disclosureColor: Color?
     
     public init(disclosureColor: Color? = nil) {
