@@ -47,8 +47,8 @@ extension View {
     ///   - newValue: The new value that failed the comparison check.
     ///
     /// - Returns: A view that fires an action when the specified value changes.
-    @inlinable public func onAppearOrChange<V>(of value: V, perform action: @escaping (_ newValue: V) -> Void) -> some View where V: Equatable {
-        self.onAppear { action(value) }
-        .onChange(of: value) { action($0) }
+    @inlinable public func onAppearOrChange<V>(of value: V, perform action: @escaping (_ oldValue: V, _ newValue: V) -> Void) -> some View where V: Equatable {
+        self.onAppear { action(value, value) }
+        .onChange(of: value) { old, new in action(old, new) }
     }
 }
