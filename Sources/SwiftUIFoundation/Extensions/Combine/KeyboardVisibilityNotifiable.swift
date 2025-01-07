@@ -12,17 +12,20 @@ public protocol KeyboardVisibilityNotifiable {
     var keyboardVisible: AnyPublisher<Bool, Never> { get }
 }
 
+fileprivate let _keyboardVisible: AnyPublisher<Bool, Never> = Publishers.Merge(
+    NotificationCenter.default
+        .publisher(for: UIResponder.keyboardWillShowNotification)
+        .map { _ in true },
+
+    NotificationCenter.default
+        .publisher(for: UIResponder.keyboardWillHideNotification)
+        .map { _ in false }
+    )
+    .share(replay: 1)
+    .eraseToAnyPublisher()
+
 extension KeyboardVisibilityNotifiable {
     public var keyboardVisible: AnyPublisher<Bool, Never> {
-        Publishers.Merge(
-            NotificationCenter.default
-                .publisher(for: UIResponder.keyboardWillShowNotification)
-                .map { _ in true },
-
-            NotificationCenter.default
-                .publisher(for: UIResponder.keyboardWillHideNotification)
-                .map { _ in false }
-        )
-        .eraseToAnyPublisher()
+        _keyboardVisible
     }
 }

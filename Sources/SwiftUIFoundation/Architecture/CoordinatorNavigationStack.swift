@@ -19,6 +19,13 @@ public struct CoordinatorNavigationStack<Content>: View where Content : View {
     
     public var body: some View {
         NavigationStack(path: self.$path.path, root: self.content)
+            .onChange(of: self.path.path) { oldValue, newValue in
+                if oldValue.count == newValue.count + 1
+                    && self.path.objectCount == oldValue.count
+                    && self.path.objectCount == newValue.count + 1 {
+                    self.path.removeLastObjectOnly()
+                }
+            }
     }
 }
 
@@ -28,6 +35,7 @@ public class CoordinatorNavigationPath {
     public typealias NavigationObject = AnyObject & Hashable & Equatable
     fileprivate var path: NavigationPath = NavigationPath()
     private var objects: [any NavigationObject] = []
+    fileprivate var objectCount: Int { self.objects.count }
     
     @ObservationIgnored
     private let semaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
@@ -95,5 +103,11 @@ public class CoordinatorNavigationPath {
             }
         }
         return nil
+    }
+    
+    fileprivate func removeLastObjectOnly() {
+        self.semaphore.wait()
+        self.objects.removeLast()
+        self.semaphore.signal()
     }
 }
