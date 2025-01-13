@@ -12,7 +12,7 @@ import SwiftUIFoundation
 extension Telemetry {
     /// Telemetry event handler that caches events.
     public actor CacheEventHandler: Telemetry.EventHandling {
-        private let _events: CurrentValueSubject<[any Telemetry.Event], Never> = CurrentValueSubject([])
+        nonisolated private let _events: CurrentValueSubject<[any Telemetry.Event], Never> = CurrentValueSubject([])
         public var events: AnyPublisher<[any Telemetry.Event], Never> { self._events.eraseToAnyPublisher() }
         
         private let maximumCacheSize: Int?
@@ -20,6 +20,10 @@ extension Telemetry {
         public init(maximumCacheSize: Int? = nil) {
             self.maximumCacheSize = maximumCacheSize
         }
+        
+        public func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?) async {}
+        
+        public func identifyUser(with properties: [String: Any]?) async {}
         
         public func log(_ event: some Telemetry.Event) async {
             let maximumCacheSize = self.maximumCacheSize

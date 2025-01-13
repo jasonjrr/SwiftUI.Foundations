@@ -154,7 +154,7 @@ public struct PillButtonStyle: ButtonStyle {
             .compositingGroup()
             .opacity(self.isPressed ? 0.5 : 1.0)
             .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
-            .onChange(of: configuration.isPressed) { isPressed in
+            .onChange(of: configuration.isPressed) { _, isPressed in
                 withAnimation(.easeInOut(duration: 0.065)) {
                     self.isPressed = isPressed
                 }

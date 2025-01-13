@@ -10,23 +10,20 @@ import Foundation
 extension Telemetry {
     /// Service protocol that specifies the required functionality for telemetry logging
     public protocol TelemetryServiceProtocol: AnyObject {
-        /// Registers the specifies `eventHandler` to the service
-        ///
-        /// - Parameters:
-        ///   - eventHandler: An instance of `EventHandling` that will attempt to log `Event`s
-        func register(_ eventHandler: any Telemetry.EventHandling)
-        func register(_ eventHandlers: [any Telemetry.EventHandling])
-        func register(_ eventHandlers: any Telemetry.EventHandling...)
+        func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?)
+        
+        func identifyUser(with properties: [String: Any]?)
         
         func log(_ event: some Telemetry.Event)
-        func logPerformanceTrace(_ eventName: String, data: [String: Any], startMetadata: Telemetry.CallerMetadata, startDate: Date, endMetadata: Telemetry.CallerMetadata, endDate: Date?)
-        func startPerformanceTrace(_ eventName: String, metadata startMetadata: Telemetry.CallerMetadata, startDate: Date) -> Telemetry.PerformanceTraceSubject
+        func logPerformanceTrace(_ eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID?, data: [String: Any], startMetadata: Telemetry.CallerMetadata, startDate: Date, endMetadata: Telemetry.CallerMetadata, endDate: Date?)
+        func logPerformanceTrace(_ eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID?, data: [String: Any], startMetadata: Telemetry.CallerMetadata, startDate: Date, endMetadata: Telemetry.CallerMetadata, error: Error?, endDate: Date?)
+        func startPerformanceTrace(_ eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID?, metadata startMetadata: Telemetry.CallerMetadata, startDate: Date) -> Telemetry.PerformanceTraceSubject
     }
 }
 
 extension Telemetry.TelemetryServiceProtocol {
-    func startPerformanceTrace(_ eventName: String, metadata startMetadata: Telemetry.CallerMetadata = .metadata(), startDate: Date = Date()) -> Telemetry.PerformanceTraceSubject {
-        startPerformanceTrace(eventName, metadata: startMetadata, startDate: startDate)
+    public func startPerformanceTrace(_ eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID? = nil, metadata startMetadata: Telemetry.CallerMetadata, startDate: Date = Date()) -> Telemetry.PerformanceTraceSubject {
+        startPerformanceTrace(eventName, phase: phase, traceID: traceID, metadata: startMetadata, startDate: startDate)
     }
 }
 
@@ -34,16 +31,32 @@ extension Telemetry {
     public class TelemetryService: Telemetry.TelemetryServiceProtocol {
         private var eventHandlers: [any Telemetry.EventHandling] = []
         
-        public func register(_ eventHandler: any Telemetry.EventHandling) {
-            self.eventHandlers.append(eventHandler)
+        public init(eventHandlers: (any Telemetry.EventHandling)...) {
+            self.eventHandlers = eventHandlers
         }
         
-        public func register(_ eventHandlers: [any Telemetry.EventHandling]) {
-            self.eventHandlers.append(contentsOf: eventHandlers)
+        public func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?) {
+            Task {
+                await withTaskGroup(of: Void.self) { group in
+                    self.eventHandlers.forEach { handler in
+                        group.addTask {
+                            await handler.onAppLaunch(withOptions: launchOptions)
+                        }
+                    }
+                }
+            }
         }
         
-        public func register(_ eventHandlers: any Telemetry.EventHandling...) {
-            self.eventHandlers.append(contentsOf: eventHandlers)
+        public func identifyUser(with properties: [String: Any]?) {
+            Task {
+                await withTaskGroup(of: Void.self) { group in
+                    self.eventHandlers.forEach { handler in
+                        group.addTask {
+                            await handler.identifyUser(with: properties)
+                        }
+                    }
+                }
+            }
         }
         
         public func log(_ event: some Telemetry.Event) {
@@ -58,24 +71,64 @@ extension Telemetry {
             }
         }
         
-        public func logPerformanceTrace(_ eventName: String, data: [String : Any], startMetadata: Telemetry.CallerMetadata, startDate: Date, endMetadata: Telemetry.CallerMetadata, endDate: Date?) {
-            let event = Telemetry.PerformanceTraceEvent(
-                eventName: eventName,
+        public func logPerformanceTrace(
+            _ eventName: String,
+            phase: Telemetry.PerformanceTraceEvent.Phase,
+            traceID: Telemetry.EventTraceID? = nil,
+            data: [String : Any],
+            startMetadata: Telemetry.CallerMetadata,
+            startDate: Date,
+            endMetadata: Telemetry.CallerMetadata,
+            endDate: Date?
+        ) {
+            logPerformanceTrace(
+                eventName,
+                phase: phase,
+                traceID: traceID,
                 data: data,
                 startMetadata: startMetadata,
                 startDate: startDate,
                 endMetadata: endMetadata,
+                error: nil,
+                endDate: endDate
+            )
+        }
+        
+        public func logPerformanceTrace(
+            _ eventName: String,
+            phase: Telemetry.PerformanceTraceEvent.Phase,
+            traceID: Telemetry.EventTraceID? = nil,
+            data: [String : Any],
+            startMetadata: Telemetry.CallerMetadata,
+            startDate: Date,
+            endMetadata: Telemetry.CallerMetadata,
+            error: Error?,
+            endDate: Date?
+        ) {
+            let event = Telemetry.PerformanceTraceEvent(
+                eventName: eventName,
+                phase: phase,
+                traceID: traceID,
+                data: data,
+                startMetadata: startMetadata,
+                startDate: startDate,
+                endMetadata: endMetadata,
+                error: error,
                 endDate: endDate)
             log(event)
         }
         
         public func startPerformanceTrace(
             _ eventName: String,
-            metadata startMetadata: Telemetry.CallerMetadata = .metadata(),
+            phase: Telemetry.PerformanceTraceEvent.Phase,
+            traceID: Telemetry.EventTraceID? = nil,
+            metadata startMetadata: Telemetry.CallerMetadata,
             startDate: Date = Date()
         ) -> Telemetry.PerformanceTraceSubject {
             Telemetry.PerformanceTraceSubject(
                 eventName: eventName,
+                phase: phase,
+                traceID: traceID,
                 startMetadata: startMetadata,
                 startDate: startDate,
                 delegate: self)
@@ -84,13 +137,24 @@ extension Telemetry {
 }
 
 extension Telemetry.TelemetryService: Telemetry.PerformanceTraceSubject.Delegate {
-    public func telemetryPerformanceTraceSubject(_ source: Telemetry.PerformanceTraceSubject, didEndWithData data: [String : Any], endMetadata: Telemetry.CallerMetadata, endDate: Date?) {
+    public func telemetryPerformanceTraceSubject(
+        _ source: Telemetry.PerformanceTraceSubject,
+        didEndWithEvent eventName: String,
+        phase: Telemetry.PerformanceTraceEvent.Phase,
+        traceID: Telemetry.EventTraceID?,
+        data: [String : Any],
+        endMetadata: Telemetry.CallerMetadata,
+        error: (any Error)?,
+        endDate: Date?
+    ) {
         logPerformanceTrace(
-            source.eventName,
+            eventName,
+            phase: phase,
             data: data,
             startMetadata: source.startMetadata,
             startDate: source.startDate,
             endMetadata: endMetadata,
+            error: error,
             endDate: endDate)
     }
 }

@@ -248,7 +248,7 @@ extension Bluetooth.BluetoothConnectivityService {
     }
 }
 
-extension CBManagerState: CustomStringConvertible {
+extension CBManagerState: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .unknown:

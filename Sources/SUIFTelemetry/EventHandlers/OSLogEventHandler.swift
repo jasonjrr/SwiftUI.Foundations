@@ -58,6 +58,10 @@ extension Telemetry {
             self.logger = Logger(subsystem: subsystem, category: category)
         }
         
+        public func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?) async {}
+        
+        public func identifyUser(with properties: [String: Any]?) async {}
+        
         public func log(_ event: some Telemetry.Event) {
             guard let event = event as? OSLogEvent else {
                 return

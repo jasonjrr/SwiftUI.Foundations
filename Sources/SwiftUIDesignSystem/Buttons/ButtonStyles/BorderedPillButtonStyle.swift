@@ -116,7 +116,7 @@ public struct BorderedPillButtonStyle: ButtonStyle {
             .opacity(self.isPressed ? 0.5 : 1.0)
             .opacity(self.isEnabled ? 1.0 : self.theme.constants.disabledOpacity)
             .accentColor(self.foregroundColor?.color ?? self.theme.colors.accent.color)
-            .onChange(of: configuration.isPressed) { isPressed in
+            .onChange(of: configuration.isPressed) { _, isPressed in
                 withAnimation(.easeInOut(duration: 0.065)) {
                     self.isPressed = isPressed
                 }

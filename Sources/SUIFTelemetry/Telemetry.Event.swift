@@ -9,4 +9,5 @@ import Foundation
 
 extension Telemetry {
     public protocol Event {}
+    public protocol ErrorEvent: Event {}
 }

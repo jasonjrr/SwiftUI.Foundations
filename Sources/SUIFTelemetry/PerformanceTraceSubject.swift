@@ -10,6 +10,8 @@ import Foundation
 extension Telemetry {
     public class PerformanceTraceSubject {
         public let eventName: String
+        public let phase: Telemetry.PerformanceTraceEvent.Phase
+        public let traceID: EventTraceID?
         let startMetadata: Telemetry.CallerMetadata
         let startDate: Date
         
@@ -17,27 +19,29 @@ extension Telemetry {
         
         private var handled: Bool = false
         
-        init(eventName: String, startMetadata: Telemetry.CallerMetadata, startDate: Date, delegate: Telemetry.PerformanceTraceSubject.Delegate) {
+        init(eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: EventTraceID?, startMetadata: Telemetry.CallerMetadata, startDate: Date, delegate: Telemetry.PerformanceTraceSubject.Delegate) {
             self.eventName = eventName
+            self.phase = phase
+            self.traceID = traceID
             self.delegate = delegate
             self.startMetadata = startMetadata
             self.startDate = startDate
         }
         
         deinit {
-            end(endDate: nil)
+            end(metadata: .metadata(), endDate: nil)
         }
         
-        func end(data: [String: Any] = [:], metadata: Telemetry.CallerMetadata = .metadata(), endDate: Date? = Date()) {
+        public func end(data: [String: Any] = [:], metadata: Telemetry.CallerMetadata, error: Error? = nil, endDate: Date? = Date()) {
             if self.handled { return }
             self.handled = true
-            self.delegate?.telemetryPerformanceTraceSubject(self, didEndWithData: data, endMetadata: metadata, endDate: endDate)
+            self.delegate?.telemetryPerformanceTraceSubject(self, didEndWithEvent: eventName, phase: phase, traceID: self.traceID, data: data, endMetadata: metadata, error: error, endDate: endDate)
         }
     }
 }
 
 extension Telemetry.PerformanceTraceSubject {
     public protocol Delegate: AnyObject {
-        func telemetryPerformanceTraceSubject(_ source: Telemetry.PerformanceTraceSubject, didEndWithData data: [String: Any], endMetadata: Telemetry.CallerMetadata, endDate: Date?)
+        func telemetryPerformanceTraceSubject(_ source: Telemetry.PerformanceTraceSubject, didEndWithEvent eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID?, data: [String: Any], endMetadata: Telemetry.CallerMetadata, error: Error?, endDate: Date?)
     }
 }
