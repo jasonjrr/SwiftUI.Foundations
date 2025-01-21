@@ -49,7 +49,7 @@ public class SourcedImageViewModel: ObservableObject, Identifiable {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    private let fetchImagesDistpatchQueue = DispatchQueue(label: "SourcedImageViewModel", qos: .userInitiated)
+    private let fetchImagesDispatchQueue = DispatchQueue(label: "SourcedImageViewModel", qos: .userInitiated)
     
     /// Initializes a new `SourcedImageViewModel`
     ///
@@ -122,7 +122,7 @@ public class SourcedImageViewModel: ObservableObject, Identifiable {
                 }
             }
             .withLatestFrom(self.imageSource) { ($0, $1) }
-            .receive(on: self.fetchImagesDistpatchQueue)
+            .receive(on: self.fetchImagesDispatchQueue)
             .flatMap { [weak self, networkingService] (_: ImageState, imageSource: ImageSource) -> AnyPublisher<ImageState, Never> in
                 switch imageSource {
                 case .empty, .systemImage, .uiImage:
@@ -139,7 +139,7 @@ public class SourcedImageViewModel: ObservableObject, Identifiable {
                     }
                     return networkingService
                         .publishers
-                        .fetchImage(from: url)
+                        .getImage(from: url)
                         .map { response -> ImageState in
                             .loaded(response.image)
                         }

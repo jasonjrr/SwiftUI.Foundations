@@ -12,17 +12,29 @@ public struct CallerMetadata {
     public let line: Int
     public let column: Int
     
+    private let parentMetadataContainer: [CallerMetadata]?
+    public var parentMetadata: CallerMetadata? {
+        self.parentMetadataContainer?.first
+    }
+    
     /// https://stackoverflow.com/questions/24103376/is-there-a-way-to-get-line-number-and-function-name-in-swift-language
     public init(
         fileID: String = #fileID,
         function: String = #function,
         line: Int = #line,
-        column: Int = #column
+        column: Int = #column,
+        parentMetadata: CallerMetadata? = nil
     ) {
         self.fileID = fileID
         self.function = function
         self.line = line
         self.column = column
+        
+        if let parentMetadata {
+            self.parentMetadataContainer = [parentMetadata]
+        } else {
+            self.parentMetadataContainer = nil
+        }
     }
     
     @inlinable
@@ -30,8 +42,9 @@ public struct CallerMetadata {
         fileID: String = #fileID,
         function: String = #function,
         line: Int = #line,
-        column: Int = #column
+        column: Int = #column,
+        parentMetadata: CallerMetadata? = nil
     ) -> CallerMetadata {
-        CallerMetadata(fileID: fileID, function: function, line: line, column: column)
+        CallerMetadata(fileID: fileID, function: function, line: line, column: column, parentMetadata: parentMetadata)
     }
 }
