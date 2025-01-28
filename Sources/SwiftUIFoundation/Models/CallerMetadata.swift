@@ -6,7 +6,7 @@
 //
 
 
-public struct CallerMetadata {
+public struct CallerMetadata: Sendable {
     public let fileID: String
     public let function: String
     public let line: Int
