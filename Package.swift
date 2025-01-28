@@ -33,6 +33,9 @@ let package = Package(
         .library(
             name: "SUIFTelemetry",
             targets: ["SUIFTelemetry"]),
+        .library(
+            name: "SUIFUserDefaults",
+            targets: ["SUIFUserDefaults"]),
     ],
     dependencies: [
         .package(url: "https://github.com/CombineCommunity/CombineExt.git", exact: Version(1, 8, 1)),
@@ -88,6 +91,12 @@ let package = Package(
             dependencies: [
                 .target(name: "SwiftUIFoundation"),
                 .product(name: "CombineExt", package: "CombineExt"),
+            ]
+        ),
+        .target(
+            name: "SUIFUserDefaults",
+            dependencies: [
+                .target(name: "SwiftUIFoundation"),
             ]
         ),
         .testTarget(
