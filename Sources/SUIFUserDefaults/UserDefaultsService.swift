@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUIFoundation
 
-public protocol UserDefaultsServiceProtocol: AnyObject {
+public protocol UserDefaultsServiceProtocol: AnyObject, Sendable {
     associatedtype PublishersProxy : UserDefaultsServicePublishersProtocol
     associatedtype AsyncProxy : UserDefaultsServiceAsyncProtocol
     
@@ -26,7 +26,7 @@ public protocol UserDefaultsServiceProtocol: AnyObject {
     func set<K: UserDefaults.Key>(_ stringArray: [String]?, for key: K)
 }
 
-public protocol UserDefaultsServicePublishersProtocol {
+public protocol UserDefaultsServicePublishersProtocol: Sendable {
     func bool<K: UserDefaults.Key>(for key: K) -> AnyPublisher<Bool, Never>
     func data<K: UserDefaults.Key>(for key: K) -> AnyPublisher<Data?, Never>
     func double<K: UserDefaults.Key>(for key: K) -> AnyPublisher<Double, Never>
@@ -37,7 +37,7 @@ public protocol UserDefaultsServicePublishersProtocol {
     func stringArray<K: UserDefaults.Key>(for key: K) -> AnyPublisher<[String]?, Never>
 }
 
-public protocol UserDefaultsServiceAsyncProtocol: AnyObject {
+public protocol UserDefaultsServiceAsyncProtocol: AnyObject, Sendable {
     func bool<K: UserDefaults.Key>(for key: K) async -> Bool
     func data<K: UserDefaults.Key>(for key: K) async -> Data?
     func double<K: UserDefaults.Key>(for key: K) async -> Double
@@ -48,7 +48,7 @@ public protocol UserDefaultsServiceAsyncProtocol: AnyObject {
     func stringArray<K: UserDefaults.Key>(for key: K) async -> [String]?
 }
 
-public class UserDefaultsService: UserDefaultsServiceProtocol, @unchecked Sendable {
+public final class UserDefaultsService: UserDefaultsServiceProtocol, @unchecked Sendable {
     private let userDefaults: UserDefaults
     private var boolCache: [String: CurrentValueSubject<Bool, Never>] = [:]
     private var dataCache: [String: CurrentValueSubject<Data?, Never>] = [:]
