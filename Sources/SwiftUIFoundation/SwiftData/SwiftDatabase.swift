@@ -34,6 +34,12 @@ extension SwiftDatabase {
         return try context.fetch(fetchDescriptor)
     }
     
+    public func read<T: PersistentModel>(batchSize: Int, predicate: Predicate<T>?, sortDescriptors: SortDescriptor<T>...) throws -> FetchResultsCollection<T> {
+        let context = ModelContext(self.container)
+        let fetchDescriptor = FetchDescriptor<T>(predicate: predicate, sortBy: sortDescriptors)
+        return try context.fetch(fetchDescriptor, batchSize: batchSize)
+    }
+    
     public func update<T: PersistentModel>(_ item: T) throws {
         let context = ModelContext(self.container)
         context.insert(item)
