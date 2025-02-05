@@ -60,9 +60,12 @@ extension SwiftDatabase {
         let idsToDelete = items.map { $0.persistentModelID }
   
         try context.transaction {
-            let models = try read(predicate: #Predicate { (model: T) in
-                idsToDelete.contains(model.persistentModelID)
-            })
+            var models: [T] = []
+            for id in idsToDelete {
+                let model = try read(predicate: #Predicate { (model: T) in
+                    model.persistentModelID == id
+                })
+            }
             models.forEach { model in
                 context.delete(model)
             }
