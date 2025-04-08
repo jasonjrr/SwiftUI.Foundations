@@ -7,11 +7,19 @@
 
 import Foundation
 
-public struct Version: Codable, Comparable, Sendable {
+public struct Version: Codable, Comparable, CustomStringConvertible, Sendable {
     public let major: Int
     public let minor: Int?
     public let patch: Int?
     public let build: Int?
+    
+    public var description: String {
+        var out: String = "\(self.major).\(self.minor ?? 0).\(self.patch ?? 0)"
+        if let build = self.build {
+            out += " (\(build))"
+        }
+        return out
+    }
     
     public init(major: Int, minor: Int? = nil, patch: Int? = nil, build: Int? = nil) {
         self.major = major
