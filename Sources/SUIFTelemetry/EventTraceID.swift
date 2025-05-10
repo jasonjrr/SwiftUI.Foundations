@@ -10,8 +10,12 @@ import Foundation
 import Foundation
 
 extension Telemetry {
-    public struct EventTraceID {
+    public struct EventTraceID: Codable, CustomStringConvertible, Sendable {
         public let value: String
+        
+        public var description: String {
+            return self.value
+        }
         
         public init(value: String = UUID().uuidString) {
             self.value = value
