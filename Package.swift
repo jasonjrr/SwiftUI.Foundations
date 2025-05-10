@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftUI.Foundations",
+    name: "SwiftUIFoundations",
     defaultLocalization: "en",
     platforms: [
         .iOS(.v17),
