@@ -12,7 +12,7 @@ extension Telemetry {
         public let eventName: String
         public let phase: Telemetry.PerformanceTraceEvent.Phase
         public let traceID: Telemetry.EventTraceID?
-        public let data: [String: Any]
+        public let data: [String: Sendable]
         public let startMetadata: Telemetry.CallerMetadata
         public let startDate: Date
         public let endMetadata: Telemetry.CallerMetadata
@@ -64,7 +64,7 @@ extension Telemetry {
 }
 
 extension Telemetry.PerformanceTraceEvent {
-    public enum Phase: String {
+    public enum Phase: String, Sendable {
         case deserialization = "deserialization"
         case endToEnd = "end_to_end"
         case networkRoundTrip = "network_round_trip"

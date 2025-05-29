@@ -9,7 +9,7 @@ import Foundation
 
 extension Telemetry {
     /// Service protocol that specifies the required functionality for telemetry logging
-    public protocol TelemetryServiceProtocol: AnyObject {
+    public protocol TelemetryServiceProtocol: AnyObject, Sendable {
         func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?)
         
         func identifyUser(with properties: [String: Any]?)
@@ -28,7 +28,7 @@ extension Telemetry.TelemetryServiceProtocol {
 }
 
 extension Telemetry {
-    public class TelemetryService: Telemetry.TelemetryServiceProtocol {
+    public final class TelemetryService: Telemetry.TelemetryServiceProtocol, @unchecked Sendable {
         private var eventHandlers: [any Telemetry.EventHandling] = []
         
         public init(eventHandlers: (any Telemetry.EventHandling)...) {
