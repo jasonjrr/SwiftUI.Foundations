@@ -14,18 +14,22 @@ public protocol SwiftDatabase<T>: Database {
 }
 
 extension SwiftDatabase {
-    public func create<T: PersistentModel>(_ item: T) throws {
-        let context = ModelContext(self.container)
+    public func create<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
+        let context = transactionContext ?? ModelContext(self.container)
         context.insert(item)
-        try context.save()
+        if transactionContext == nil {
+            try context.save()
+        }
     }
 
-    public func create<T: PersistentModel>(_ items: [T]) throws {
-        let context = ModelContext(self.container)
+    public func create<T: PersistentModel>(_ items: [T], transactionContext: ModelContext? = nil) throws {
+        let context = transactionContext ?? ModelContext(self.container)
         items.forEach {
             context.insert($0)
         }
-        try context.save()
+        if transactionContext == nil {
+            try context.save()
+        }
     }
     
     public func read<T: PersistentModel>(predicate: Predicate<T>?, sortDescriptors: SortDescriptor<T>...) throws -> [T] {
@@ -40,19 +44,23 @@ extension SwiftDatabase {
         return try context.fetch(fetchDescriptor, batchSize: batchSize)
     }
     
-    public func update<T: PersistentModel>(_ item: T) throws {
-        let context = ModelContext(self.container)
+    public func update<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
+        let context = transactionContext ?? ModelContext(self.container)
         context.insert(item)
-        try context.save()
+        if transactionContext == nil {
+            try context.save()
+        }
     }
     
-    public func delete<T: PersistentModel>(_ item: T) throws {
-        let context = ModelContext(self.container)
+    public func delete<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
+        let context = transactionContext ?? ModelContext(self.container)
         let idToDelete = item.persistentModelID
         try context.delete(model: T.self, where: #Predicate { item in
             item.persistentModelID == idToDelete
         })
-        try context.save()
+        if transactionContext == nil {
+            try context.save()
+        }
     }
     
     public func delete<T: PersistentModel>(_ items: [T]) throws {
