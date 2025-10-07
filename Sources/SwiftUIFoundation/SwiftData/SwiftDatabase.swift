@@ -14,6 +14,9 @@ public protocol SwiftDatabase<T>: Database {
 }
 
 extension SwiftDatabase {
+    public func create<T: PersistentModel>(_ item: T) throws {
+        try create(item, transactionContext: nil)
+    }
     public func create<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
         let context = transactionContext ?? ModelContext(self.container)
         context.insert(item)
@@ -22,6 +25,9 @@ extension SwiftDatabase {
         }
     }
 
+    public func create<T: PersistentModel>(_ items: [T]) throws {
+        try create(items, transactionContext: nil)
+    }
     public func create<T: PersistentModel>(_ items: [T], transactionContext: ModelContext? = nil) throws {
         let context = transactionContext ?? ModelContext(self.container)
         items.forEach {
@@ -44,6 +50,9 @@ extension SwiftDatabase {
         return try context.fetch(fetchDescriptor, batchSize: batchSize)
     }
     
+    public func update<T: PersistentModel>(_ item: T) throws {
+        try update(item, transactionContext: nil)
+    }
     public func update<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
         let context = transactionContext ?? ModelContext(self.container)
         context.insert(item)
@@ -52,6 +61,9 @@ extension SwiftDatabase {
         }
     }
     
+    public func delete<T: PersistentModel>(_ item: T) throws {
+        try delete(item, transactionContext: nil)
+    }
     public func delete<T: PersistentModel>(_ item: T, transactionContext: ModelContext? = nil) throws {
         let context = transactionContext ?? ModelContext(self.container)
         let idToDelete = item.persistentModelID
