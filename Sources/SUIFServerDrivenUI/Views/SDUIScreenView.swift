@@ -13,12 +13,12 @@ extension SDUI {
 
         private let screenViewDescription: SDUI.ScreenViewDescription
         private let accentColor: Color?
-        private let content: (SDUI.ViewDescription) -> Content
+        private let content: Content
 
         public init(screenViewDescription: SDUI.ScreenViewDescription, accentColor: Color?, @ViewBuilder content: @escaping (SDUI.ViewDescription) -> Content) {
             self.screenViewDescription = screenViewDescription
             self.accentColor = accentColor
-            self.content = content
+            self.content = content(screenViewDescription.contentViewDescription)
         }
 
         public var body: some View {
@@ -51,10 +51,10 @@ extension SDUI {
         @ViewBuilder
         private func makeBody() -> some View {
             if let title = self.screenViewDescription.navigationBar?.title {
-                self.content(self.screenViewDescription.contentViewDescription)
+                self.content
                     .navigationTitle(title)
             } else {
-                self.content(self.screenViewDescription.contentViewDescription)
+                self.content
             }
         }
         

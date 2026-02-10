@@ -17,8 +17,8 @@ public enum SourcedImageScaling {
 public struct SourcedImageView<LoadingContent, EmptyContent, ErrorContent>: View where LoadingContent: View, EmptyContent: View, ErrorContent: View {
     @ObservedObject var viewModel: SourcedImageViewModel
     private let imageScaling: SourcedImageScaling
-    private let loadingContent: () -> LoadingContent
-    private let emptyContent: () -> EmptyContent
+    private let loadingContent: LoadingContent
+    private let emptyContent: EmptyContent
     private let errorContent: (Error) -> ErrorContent
     
     @State private var imageState: SourcedImageViewModel.ImageState = .empty
@@ -34,14 +34,14 @@ public struct SourcedImageView<LoadingContent, EmptyContent, ErrorContent>: View
     public init(
         viewModel: SourcedImageViewModel,
         imageScaling: SourcedImageScaling = .scaleToFit,
-        @ViewBuilder loadingContent: @escaping () -> LoadingContent,
-        @ViewBuilder emptyContent: @escaping () -> EmptyContent,
+        @ViewBuilder loadingContent: () -> LoadingContent,
+        @ViewBuilder emptyContent: () -> EmptyContent,
         @ViewBuilder errorContent: @escaping (Error) -> ErrorContent
     ) {
         self.viewModel = viewModel
         self.imageScaling = imageScaling
-        self.loadingContent = loadingContent
-        self.emptyContent = emptyContent
+        self.loadingContent = loadingContent()
+        self.emptyContent = emptyContent()
         self.errorContent = errorContent
     }
     
@@ -72,7 +72,7 @@ public struct SourcedImageView<LoadingContent, EmptyContent, ErrorContent>: View
                     .scaledToFill()
             }
         case .loading:
-            self.loadingContent()
+            self.loadingContent
         case .systemImage(let name):
             switch self.imageScaling {
             case .scaleToFit:
@@ -85,7 +85,7 @@ public struct SourcedImageView<LoadingContent, EmptyContent, ErrorContent>: View
                     .scaledToFill()
             }
         case .empty:
-            self.emptyContent()
+            self.emptyContent
         }
     }
 }

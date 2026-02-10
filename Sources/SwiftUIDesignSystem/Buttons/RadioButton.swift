@@ -70,7 +70,7 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
     private let position: Self.RadioPosition
     private let cardWrapper: Self.CardWrapper?
     private let alignment: VerticalAlignment
-    @ViewBuilder private let content: () -> Content
+    @ViewBuilder private let content: Content
     
     private var isSelected: Bool {
         self.item.id == self.selectedItem?.id
@@ -91,14 +91,14 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
         position: Self.RadioPosition = .leading,
         cardWrapper: Self.CardWrapper? = nil,
         alignment: VerticalAlignment = .center,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: () -> Content
     ) {
         self.item = item
         self._selectedItem = selectedItem
         self.position = position
         self.cardWrapper = cardWrapper
         self.alignment = alignment
-        self.content = content
+        self.content = content()
     }
     
     public var body: some View {
@@ -130,7 +130,7 @@ public struct RadioButton<Item, Content>: View where Item: Identifiable, Content
             if self.position == .leading {
                 radioKnob()
             }
-            self.content()
+            self.content
                 .multilineTextAlignment(.leading)
             if self.position == .trailing {
                 Spacer()

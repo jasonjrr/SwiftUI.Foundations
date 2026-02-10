@@ -42,8 +42,7 @@ extension SDUI.LayoutFactoryView {
         @Environment(\.eventManager) private var eventManager
         
         let viewDescription: SDUI.ViewDescription
-        @ViewBuilder
-        let factory: (SDUI.ViewDescription) -> BodyContent
+        @ViewBuilder let factory: (SDUI.ViewDescription) -> BodyContent
         
         init(viewDescription: SDUI.ViewDescription, @ViewBuilder factory: @escaping (SDUI.ViewDescription) -> BodyContent) {
             self.viewDescription = viewDescription

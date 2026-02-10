@@ -10,22 +10,24 @@ import SwiftUI
 @available(iOS 17.0, *)
 public struct CoordinatorNavigationStack<Content>: View where Content : View {
     @Bindable var path: CoordinatorNavigationPath
-    let content: () -> Content
+    let content: Content
     
-    public init(path: CoordinatorNavigationPath, @ViewBuilder content: @escaping () -> Content) {
+    public init(path: CoordinatorNavigationPath, @ViewBuilder content: () -> Content) {
         self.path = path
-        self.content = content
+        self.content = content()
     }
     
     public var body: some View {
-        NavigationStack(path: self.$path.path, root: self.content)
-            .onChange(of: self.path.path) { oldValue, newValue in
-                if oldValue.count == newValue.count + 1
-                    && self.path.objectCount == oldValue.count
-                    && self.path.objectCount == newValue.count + 1 {
-                    self.path.removeLastObjectOnly()
-                }
+        NavigationStack(path: self.$path.path) {
+            self.content
+        }
+        .onChange(of: self.path.path) { oldValue, newValue in
+            if oldValue.count == newValue.count + 1
+                && self.path.objectCount == oldValue.count
+                && self.path.objectCount == newValue.count + 1 {
+                self.path.removeLastObjectOnly()
             }
+        }
     }
 }
 

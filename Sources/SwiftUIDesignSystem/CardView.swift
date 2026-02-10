@@ -37,7 +37,7 @@ public struct CardView<Content>: View where Content: View {
     private let borderWidth: CGFloat
     private let padding: EdgeInsets?
     private let shadow: CardViewShadow?
-    @ViewBuilder private let content: () -> Content
+    @ViewBuilder private let content: Content
     
     /// Initializes a new ``CardView``
     ///
@@ -46,16 +46,16 @@ public struct CardView<Content>: View where Content: View {
     ///   - borderWidth: The width of the border around the card
     ///   - padding: ``EdgeInsets`` the determine the padding of the `content`
     ///   - content: `ViewBuilder` for the content within the card
-    public init(cornerRadius: CGFloat = 8.0, borderWidth: CGFloat = 1.5, padding: EdgeInsets? = nil, shadow: CardViewShadow? = nil, @ViewBuilder content: @escaping () -> Content) {
+    public init(cornerRadius: CGFloat = 8.0, borderWidth: CGFloat = 1.5, padding: EdgeInsets? = nil, shadow: CardViewShadow? = nil, @ViewBuilder content: () -> Content) {
         self.cornerRadius = cornerRadius
         self.borderWidth = borderWidth
         self.padding = padding
         self.shadow = shadow
-        self.content = content
+        self.content = content()
     }
     
     public var body: some View {
-        self.content()
+        self.content
             .padding(self.padding ?? EdgeInsets(top: self.defaultPadding, leading: self.defaultPadding, bottom: self.defaultPadding, trailing: self.defaultPadding))
             .background {
                 ZStack {
