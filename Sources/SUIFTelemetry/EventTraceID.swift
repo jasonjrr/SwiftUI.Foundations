@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 extension Telemetry {
     public struct EventTraceID: Codable, CustomStringConvertible, Sendable {
         public let value: String

@@ -62,7 +62,7 @@ extension Telemetry {
         
         public func identifyUser(with properties: [String: Any]?) async {}
         
-        public func log(_ event: some Telemetry.Event) {
+        public func log(_ event: some Telemetry.Event) async {
             guard let event = event as? OSLogEvent else {
                 return
             }

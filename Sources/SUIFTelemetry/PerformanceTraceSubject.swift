@@ -8,7 +8,7 @@
 import Foundation
 
 extension Telemetry {
-    public class PerformanceTraceSubject {
+    public class PerformanceTraceSubject: @unchecked Sendable {
         public let eventName: String
         public let phase: Telemetry.PerformanceTraceEvent.Phase
         public let traceID: EventTraceID?
@@ -32,7 +32,7 @@ extension Telemetry {
             end(metadata: .metadata(), endDate: nil)
         }
         
-        public func end(data: [String: Any] = [:], metadata: Telemetry.CallerMetadata, error: Error? = nil, endDate: Date? = Date()) {
+        public func end(data: [String: Sendable] = [:], metadata: Telemetry.CallerMetadata, error: Error? = nil, endDate: Date? = Date()) {
             if self.handled { return }
             self.handled = true
             self.delegate?.telemetryPerformanceTraceSubject(self, didEndWithEvent: eventName, phase: phase, traceID: self.traceID, data: data, endMetadata: metadata, error: error, endDate: endDate)

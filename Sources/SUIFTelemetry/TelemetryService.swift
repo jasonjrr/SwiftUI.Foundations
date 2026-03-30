@@ -12,7 +12,7 @@ extension Telemetry {
     public protocol TelemetryServiceProtocol: AnyObject, Sendable {
         func onAppLaunch(withOptions launchOptions: [AppLaunchOptionsKey: Any]?)
         
-        func identifyUser(with properties: [String: Any]?)
+        func identifyUser(with properties: [String: Sendable]?)
         
         func log(_ event: some Telemetry.Event)
         func logPerformanceTrace(_ eventName: String, phase: Telemetry.PerformanceTraceEvent.Phase, traceID: Telemetry.EventTraceID?, data: [String: Any], startMetadata: Telemetry.CallerMetadata, startDate: Date, endMetadata: Telemetry.CallerMetadata, endDate: Date?)
@@ -47,7 +47,7 @@ extension Telemetry {
             }
         }
         
-        public func identifyUser(with properties: [String: Any]?) {
+        public func identifyUser(with properties: [String: Sendable]?) {
             Task {
                 await withTaskGroup(of: Void.self) { group in
                     self.eventHandlers.forEach { handler in
