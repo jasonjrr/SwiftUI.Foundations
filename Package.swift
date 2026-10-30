@@ -38,7 +38,7 @@ let package = Package(
             targets: ["SUIFUserDefaults"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/CombineCommunity/CombineExt.git", exact: Version(1, 8, 1)),
+        .package(url: "https://github.com/CombineCommunity/CombineExt.git", exact: Version(1, 9, 0)),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
